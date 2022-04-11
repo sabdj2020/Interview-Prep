@@ -1,0 +1,26 @@
+package com.sabrina.streamsexercises;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import space.gavinklfong.demo.streamapi.models.Product;
+import space.gavinklfong.demo.streamapi.repos.OrderRepo;
+import space.gavinklfong.demo.streamapi.repos.ProductRepo;
+
+/*Exercise 4 — Obtain a list of products ordered by customer of tier 2 between 01-Feb-2021 and 01-Apr-2021
+This exercise illustrates the usage of flatMap(). You can firstly start from an order list and then filter the list by customer tier and order date. Next, get the product list from each order record and use flatMap() to emit product records into the stream. For example, if we have 3 order records and each order contains 10 products, then flatMap() will emit 10 data elements for each order record, resulting in 30 (3 x 10) product record output in the stream.
+Since product list would contain duplicated product records if multiple orders would include the same product. In order to generate a unique product list, applying distinct() operation can help to produce the unique list.*/
+
+public class Exercise4 {
+	
+	private OrderRepo orderRepo;
+	 List<Product> result = orderRepo.findAll()
+			  .stream()
+			  .filter(o -> o.getCustomer().getTier() == 2)
+			  .filter(o -> o.getOrderDate().compareTo(LocalDate.of(2021, 2, 1)) >= 0)
+			  .filter(o -> o.getOrderDate().compareTo(LocalDate.of(2021, 4, 1)) <= 0)
+			  .flatMap(o -> o.getProducts().stream())
+			  .distinct()
+			  .collect(Collectors.toList());
+
+}
