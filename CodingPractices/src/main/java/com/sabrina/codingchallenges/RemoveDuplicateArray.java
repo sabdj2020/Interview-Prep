@@ -18,9 +18,5 @@ public class RemoveDuplicateArray {
 		HashSet<Integer>set = new HashSet<Integer>(l);
 	    l = new ArrayList<Integer>(set);
 		System.out.println(l);
-
-
 	}
-
-
 }
